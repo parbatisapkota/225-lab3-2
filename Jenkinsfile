@@ -2,11 +2,11 @@ pipeline {
     agent any 
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'roseaw-dockerhub'
-        DOCKER_IMAGE = 'cithit/roseaw'                                                 // <------change this
-        IMAGE_TAG = "build-${BUILD_NUMBER}"
-        GITHUB_URL = 'https://github.com/miamioh-cit/225-lab3-2.git'                   // <------change this
-        KUBECONFIG = credentials('roseaw-225')                                             // <------change this
+        DOCKER_CREDENTIALS_ID = 'sapkotp2-dockerhub'
+        DOCKER_IMAGE = 'cithit/sapkotp2'                                                 // <------change this
+        IMAGE_TAG = "latest"
+        GITHUB_URL = 'https://github.com/sapkotp2-cit/225-lab3-2.git'                   // <------change this
+        KUBECONFIG = credentials('sapkotp2-225')                                             // <------change this
     }
 
     stages {
