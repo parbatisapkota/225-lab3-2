@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent any
 
     environment {
         DOCKER_CREDENTIALS_ID = 'roseaw-dockerhub'
@@ -15,7 +15,6 @@ pipeline {
                           userRemoteConfigs: [[url: "${GITHUB_URL}"]]])
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -23,7 +22,6 @@ pipeline {
                 }
             }
         }
-
         stage('Push Docker Image') {
             steps {
                 script {
@@ -33,7 +31,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to Dev Environment using NodePort') {
             steps {
                 script {
@@ -44,7 +41,6 @@ pipeline {
                 }
             }
         }
-
         stage('Check Kubernetes Cluster') {
             steps {
                 script {
@@ -55,7 +51,6 @@ pipeline {
             }
         }
     }
-
     post {
         success {
             slackSend([color: "good", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
@@ -68,4 +63,3 @@ pipeline {
         }
     }
 }
-    }
