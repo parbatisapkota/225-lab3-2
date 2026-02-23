@@ -3,10 +3,9 @@ pipeline {
 
     environment {
         DOCKER_CREDENTIALS_ID = 'roseaw-dockerhub'
-        DOCKER_IMAGE = 'cithit/sapkotp2'                                                 // <------change this
+        DOCKER_IMAGE = 'cithit/sapkotp2'
         IMAGE_TAG = "latest"
-        GITHUB_URL = 'https://github.com/parbatisapkota/225-lab3-2.git'                   // <------change this
-        KUBECONFIG_CRED = 'roseaw-225'                                             // <------change this
+        GITHUB_URL = 'https://github.com/parbatisapkota/225-lab3-2.git'
     }
 
     stages {
@@ -38,23 +37,25 @@ pipeline {
         stage('Deploy to Dev Environment using NodePort') {
             steps {
                 script {
-                    // Set up Kubernetes configuration using the specified KUBECONFIG
-                    withCredentials([file(credentialsId: KUBECONFIG_CRED, variable: 'KUBECONFIG')]) {
-                    // Update deployment-dev.yaml to use the new image tag
-                    sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml"
-                    sh "kubectl apply -f deployment-dev.yaml"
+                    withCredentials([file(credentialsId: 'roseaw-225', variable: 'KUBECONFIG')]) {
+                        sh "sed -i 's|${DOCKER_IMAGE}:latest|${DOCKER_IMAGE}:${IMAGE_TAG}|' deployment-dev.yaml"
+                        sh "kubectl apply -f deployment-dev.yaml"
+                    }
                 }
             }
         }
- 
+
         stage('Check Kubernetes Cluster') {
             steps {
                 script {
-                    sh "kubectl get all"
+                    withCredentials([file(credentialsId: 'roseaw-225', variable: 'KUBECONFIG')]) {
+                        sh "kubectl get all"
+                    }
                 }
             }
         }
     }
+
     post {
         success {
             slackSend([color: "good", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
@@ -64,6 +65,7 @@ pipeline {
         }
         failure {
             slackSend([color: "danger", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
+        }
     }
 }
-}
+    }
