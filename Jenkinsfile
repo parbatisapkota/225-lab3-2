@@ -52,14 +52,17 @@ pipeline {
         }
     }
     post {
-        success {
-            slackSend([color: "good", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
-        }
-        unstable {
-            slackSend([color: "warning", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
-        }
-        failure {
-            slackSend([color: "danger", message: "Build Completed: ${env.JOB_NAME} ${env.BUILD_NUMBER}"])
-        }
+    success {
+        slackSend(channel: '#general', color: "good",
+                  message: "Build SUCCESS: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+    }
+    unstable {
+        slackSend(channel: '#general', color: "warning",
+                  message: "Build UNSTABLE: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
+    }
+    failure {
+        slackSend(channel: '#general', color: "danger",
+                  message: "Build FAILED: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
     }
 }
+} 
