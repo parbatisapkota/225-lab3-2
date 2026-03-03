@@ -53,15 +53,15 @@ pipeline {
     }
     post {
     success {
-        slackSend(channel: '#general', color: "good",
+        slackSend(channel: '#builds', color: "good",
                   message: "Build SUCCESS: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
     }
     unstable {
-        slackSend(channel: '#general', color: "warning",
+        slackSend(channel: '#builds', color: "warning",
                   message: "Build UNSTABLE: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
     }
     failure {
-        slackSend(channel: '#general', color: "danger",
+        slackSend(channel: '#builds', color: "danger",
                   message: "Build FAILED: ${env.JOB_NAME} ${env.BUILD_NUMBER}")
     }
 }
