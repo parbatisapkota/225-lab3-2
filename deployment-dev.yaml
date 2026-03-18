@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: sapkotp2
-        image: cithit/Parbati:latest   # <-------change this!
+        image: cithit/parbati:latest   # <-------change this!
         ports:
         - containerPort: 80  # Expose NGINX on port 80      
 ---
